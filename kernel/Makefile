@@ -1,7 +1,8 @@
-KERNEL_BUILD_DIR = ../build/kernel
-KERNEL_DIR = kernel
+HOSTARCH:=i386
+ARCHDIR:=arch/$(HOSTARCH)
 
-BOOT_BUILD_DIR := ../build/bootloader
+BUILD_DIR:=../build
+KERNEL_DIR = kernel
 BOOT_DIR = arch/i386
 
 AS := i686-elf-as
@@ -10,19 +11,25 @@ CC = i686-elf-gcc
 CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra -c
 
 KERNEL_SRC = $(wildcard $(KERNEL_DIR)/*.c)
-KERNEL_OBJS = $(patsubst %.c, $(KERNEL_BUILD_DIR)/%.o, $(KERNEL_SRC))
+KERNEL_OBJS = $(patsubst %.c, $(BUILD_DIR)/%.o, $(KERNEL_SRC))
 
-BOOTLOADER_SRCS := $(wildcard $(BOOT_DIR)/*.s)
-BOOTLOADER_OBJS := $(patsubst %.s, $(BOOT_BUILD_DIR)/%.o, $(BOOTLOADER_SRCS))
+BOOT_SRCS := $(wildcard $(BOOT_DIR)/*.s)
+BOOT_OBJS := $(patsubst %.s, $(BUILD_DIR)/%.o, $(BOOT_SRCS))
 
-all: $(KERNEL_OBJS) $(BOOTLOADER_OBJS)
+.PHONY: all clean
 
-$(KERNEL_BUILD_DIR)/%.o: %.c
+all: | $(BUILD_DIR) $(KERNEL_OBJS) $(BOOT_OBJS)
+
+$(BUILD_DIR)/$(KERNEL_DIR)/%.o: $(KERNEL_DIR)/%.c
 	$(CC) $(CFLAGS) $< -o $@
 
-$(BOOT_BUILD_DIR)/%.o: %.s
+$(BUILD_DIR)/$(BOOT_DIR)/%.o: $(BOOT_DIR)/%.s
 	$(AS) $< -o $@
 
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)/$(KERNEL_DIR)
+	mkdir -p $(BUILD_DIR)/$(BOOT_DIR)
+
 clean:
-	rm $(KERNEL_BUILD_DIR)/*
-	rm $(BOOT_BUILD_DIR)/*
+	rm -rf $(BUILD_DIR)
