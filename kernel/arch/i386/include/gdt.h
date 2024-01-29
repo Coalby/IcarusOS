@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "kernel.h"
 
 // Good for GDT visualization
 typedef struct
@@ -11,22 +10,23 @@ typedef struct
     uint16_t limit_low;
     uint16_t base_low;
     uint8_t base_mid;
-    
-    // Access
-    uint8_t accessed:1;
-    uint8_t readable_writable:1;
-    uint8_t direction:1;
-    uint8_t executable:1;
-    uint8_t descriptor:1;
-    enum PRIVILEGE_LEVEL dpl:2;
-    uint8_t present:1;
+
+    uint8_t access;
+    // uint8_t accessed:1;
+    // uint8_t readable_writable:1;
+    // uint8_t direction:1;
+    // uint8_t executable:1;
+    // uint8_t descriptor:1;
+    // enum PRIVILEGE_LEVEL dpl:2;
+    // uint8_t present:1;
 
     // Flags and limit high
-    uint8_t limit_high:4;
-    uint8_t reserved:1;
-    uint8_t long_mode:1;
-    uint8_t size:1;
-    uint8_t granualarity:1;
+    uint8_t flags_limit_high;
+    // uint8_t limit_high:4;
+    // uint8_t reserved:1;
+    // uint8_t long_mode:1;
+    // uint8_t size:1;
+    // uint8_t granualarity:1;
 
     uint8_t base_high;
 } __attribute__((packed)) GDT_Value;
@@ -37,10 +37,9 @@ typedef struct {
 } __attribute__((packed)) GDT_ptr;
 
 enum {
-    NULL,
+    NULL_SEGMENT,
     KMODE_CODE,
-    KMODE_DATA,
-    TASKSTATE
+    KMODE_DATA
 };
 
 /*  Finding particular bits in an int
@@ -54,13 +53,9 @@ enum {
 #define GDT_FLAGS_LIMIT_HIGH(flags, limit)  (((limit >> 16) & 0xF) | (flags & 0xF0))
 #define GDT_BASE_HIGH(base)                 ((base >> 24) & 0xFF)
 
-#define GDT_ENTRY(base, limit, access, flags) { \
-    GDT_LIMIT_LOW(limit),                       \
-    GDT_BASE_LOW(base),                         \ 
-    GDT_BASE_MID(base),                         \
-    access,                                     \
-    GDT_FLAGS_LIMIT_HIGH(flags, limit),         \
-    GDT_BASE_HIGH(base)                         \
-}
+extern void flush_gdt();
+
+void set_gdt_entry(GDT_Value *, uint32_t,  uint32_t,  uint8_t,  uint8_t);
+void initialize_GDT();
 
 #endif

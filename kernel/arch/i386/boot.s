@@ -27,8 +27,6 @@ _start:
         # set up stack pointer (esp)
         mov $stack_top, %esp
 
-        
-
         # Kernel
         call kernel_main
         
