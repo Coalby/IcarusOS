@@ -8,9 +8,7 @@ BOOT := $(BUILD_DIR)/arch/i386/boot.o
 KERNEL := $(BUILD_DIR)/kernel/kernel.o
 
 OBJS := $(BOOT)							\
-		$(KERNEL)						\
-		$(BUILD_DIR)/arch/i386/gdt.o	\
-		$(BUILD_DIR)/arch/i386/gdt_set.o
+		$(KERNEL)
 
 # TODO: Find way to make LD_SCRIPT more modular (Move it out to main dir?)
 LD_SCRIPT := kernel/arch/i386/linker.ld
@@ -18,7 +16,7 @@ LD := i686-elf-gcc
 LD_FLAGS := -T $(LD_SCRIPT) -o $(OS_BIN) -ffreestanding -O2 -nostdlib $(OBJS) -lgcc
 
 
-.PHONY: all clean link qemu kernel isoimg
+.PHONY: all clean link qemu qemu-debug kernel isoimg
 
 all: isoimg
 
@@ -35,7 +33,10 @@ isoimg: link
 	grub-mkrescue -o $(ISO_IMG) iso
 
 qemu:
-	qemu-system-i386 -cdrom $(ISO_IMG) 
+	qemu-system-i386 -cdrom $(ISO_IMG)
+
+qemu-debug:
+	qemu-system-i386 -cdrom $(ISO_IMG) -d int
 
 clean:
 	make -C kernel clean

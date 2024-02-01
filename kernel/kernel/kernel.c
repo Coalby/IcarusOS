@@ -1,7 +1,6 @@
 #include <stdbool.h>
 #include <stddef.h>
-#include <stdint.h>
-#include "gdt.h"
+#include "kernel.h"
 
 /* Hardware text mode color constants. */
 enum vga_color {
@@ -105,8 +104,4 @@ void kernel_main(void)
     terminal_init();
     terminal_writestring("Kernel initialized!\n");
 
-    // GDT Setup
-    terminal_writestring("Resetting GDT...\n");
-    initialize_GDT();
-    terminal_writestring("GDT initialized!\n");
 }
