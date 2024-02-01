@@ -8,7 +8,7 @@
 
 - [x] Basic Boot (GRUB)
 - [x] BIOS Video Services
-- [ ] GDT
+- [x] GDT
 - [ ] IDT
 - [ ] PMM
 - [ ] VMM
