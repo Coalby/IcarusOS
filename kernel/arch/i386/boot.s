@@ -21,11 +21,6 @@ stack_top:
 
 .section .data
 .align 4
-# TODO: Finish idtr and idtr_gates to implement idt
-idtr:
-
-idtr_gates:
-        
 gdtr:
         .word gdtr-gdt_base-1
         .long gdt_base
@@ -59,7 +54,6 @@ _start:
         mov $stack_top, %esp
         
         lgdt (gdtr)
-        lidt (idtr)
         
         ljmp $0x08, $start32
 
