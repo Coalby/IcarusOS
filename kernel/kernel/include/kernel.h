@@ -3,6 +3,11 @@
 
 #include <stdint.h>
 
+enum PRIVILEGE_LEVEL
+{
+    RING_0, RING_1, RING_2, RING_3
+};
+
 void terminal_init(void);
 void terminal_setcolor(uint8_t color);
 void terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
