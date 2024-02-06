@@ -2,6 +2,7 @@
 #define KERNEL_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 enum PRIVILEGE_LEVEL
 {

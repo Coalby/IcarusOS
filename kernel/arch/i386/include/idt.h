@@ -26,5 +26,7 @@ static idt_entry_t idt[IDT_MAXSIZE];
 static idt_reg idtr;
 
 void set_idt_descriptor(uint8_t vector, uint32_t offset, uint8_t attributes);
+void set_idtr(idt_reg idtr);
+void init_idt();
 
 #endif

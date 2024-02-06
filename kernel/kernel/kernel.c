@@ -1,5 +1,4 @@
 #include <stdbool.h>
-#include <stddef.h>
 #include "kernel.h"
 
 /* Hardware text mode color constants. */
