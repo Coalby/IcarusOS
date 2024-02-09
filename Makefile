@@ -4,11 +4,13 @@ OS_BIN := icarus.bin
 
 # TODO: Terrible implementation! Find way for global variables?
 # 		Violates DRY!!!
-BOOT := $(BUILD_DIR)/arch/i386/boot.o
-KERNEL := $(BUILD_DIR)/kernel/kernel.o
+BOOT := $(BUILD_DIR)/arch/i386/
+KERNEL := $(BUILD_DIR)/kernel/
 
-OBJS := $(BOOT)							\
-		$(KERNEL)
+OBJS := $(BOOT)/boot.o					\
+		$(BOOT)/idt.o					\
+		$(KERNEL)/kernel.o				\
+		$(KERNEL)/utils.o
 
 # TODO: Find way to make LD_SCRIPT more modular (Move it out to main dir?)
 LD_SCRIPT := kernel/arch/i386/linker.ld

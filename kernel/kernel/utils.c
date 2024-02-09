@@ -4,3 +4,9 @@ void disable_interrupts() {
         "cli;"
     );
 }
+
+void enable_interrupts() {
+    __asm__ __volatile__ (
+        "sti;"
+    );
+}

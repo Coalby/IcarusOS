@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <idt.h>
 #include "kernel.h"
 
 /* Hardware text mode color constants. */
@@ -103,4 +104,6 @@ void kernel_main(void)
     terminal_init();
     terminal_writestring("Kernel initialized!\n");
 
+    init_idt();
+    terminal_writestring("IDT initialized!\n");
 }
