@@ -1,5 +1,4 @@
-#ifndef KERNEL_H
-#define KERNEL_H
+#pragma once
 
 #include <stdint.h>
 #include <stddef.h>
@@ -16,5 +15,3 @@ void terminal_putchar(char c);
 void terminal_write(const char* data, size_t size);
 void terminal_writestring(const char* data);
 void kernel_main(void);
-
-#endif

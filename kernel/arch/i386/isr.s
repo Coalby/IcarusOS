@@ -3,15 +3,15 @@
 .macro ISR_ERROR_CODE num
 .globl isr\num
 isr\num:
-    pushl $\num        # interrupt number
+    pushl $\num         # interrupt number
     jmp isr_exceptions
 .endm
 
 .macro ISR_NO_ERROR_CODE num
 .globl isr\num
 isr\num:
-    pushl $0         # dummy error code
-    pushl $\num        # interrupt number
+    pushl $0            # dummy error code
+    pushl $\num         # interrupt number
     jmp isr_exceptions
 .endm
 
@@ -49,34 +49,80 @@ ISR_NO_ERROR_CODE 29
 ISR_NO_ERROR_CODE 30
 ISR_NO_ERROR_CODE 31
 
+.extern default_exception_handler
 isr_exceptions:
-    push ds
-    push es
-    push fs
-    push gs
+    push %eax
+    push %ecx
+    push %edx
+    push %ebx
+    push %esp
+    push %ebp
+    push %esi
+    push %edi
+
+    push %ds
+    push %es
+    push %fs
+    push %gs
 
     # load kernel data segment
-    push eax
     movw $0x10, %ax
     movw %ax, %ds
     movw %ax, %es
     movw %ax, %fs
     movw %ax, %gs
-    pop eax
 
-    .extern default_exception_handler
     call default_exception_handler
 
-    pop gs
-    pop fs
-    pop es
-    pop ds
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
+    
+    push %edi
+    push %esi
+    push %ebp
+    push %esp
+    push %ebx
+    push %edx
+    push %ecx
+    push %eax
+
+    add $8, %esp
     iret
 
-.globl stub_table
-stub_table:
-    i EQU 0
-    %rep 32
-        .long isr\i
-    %assign i i+1
-    %endrep
+# TODO: Find better way to initialize table. Good examples on NASM are common
+.globl idt_stub_table
+idt_stub_table:
+    .long isr0
+    .long isr1
+    .long isr2
+    .long isr3
+    .long isr4
+    .long isr5
+    .long isr6
+    .long isr7
+    .long isr8
+    .long isr9
+    .long isr10
+    .long isr11
+    .long isr12
+    .long isr13
+    .long isr14
+    .long isr15
+    .long isr16
+    .long isr17
+    .long isr18
+    .long isr19
+    .long isr20
+    .long isr21
+    .long isr22
+    .long isr23
+    .long isr24
+    .long isr25
+    .long isr26
+    .long isr27
+    .long isr28
+    .long isr29
+    .long isr30
+    .long isr31

@@ -1,5 +1,10 @@
 #include "idt.h"
-#include "handlers.h"
+#include <utils.h>
+#include <kernel.h>
+
+__attribute__((aligned(0x10))) 
+static idt_entry_t idt[IDT_MAXSIZE];
+static idt_reg idtr;
 
 void set_idt_descriptor(uint8_t vector, void *isr, uint8_t attributes)
 {
@@ -13,8 +18,8 @@ void set_idt_descriptor(uint8_t vector, void *isr, uint8_t attributes)
 }
 
 void set_idtr(idt_reg idtr) {
-    __asm__ __volatile__ ("lidt %0" : : "m" (idtr));
-    __asm__ __volatile__ ("sti");
+    __asm__ ("lidt %0" : : "m" (idtr));
+    __asm__ ("sti");
 } 
 
 // TODO: Finish init_idt(); Need to implement idt stub
@@ -23,8 +28,8 @@ void init_idt()
     idtr.limit = 0xFFF;
     idtr.base  = (uintptr_t)&idt[0];
 
-    for (uint8_t vector = 0; vector < (EXCEPTION_SIZE - 1); vector++) {
-        set_idt_descriptor(vector, stub_table[vector], TASK_GATE_ATTRIBUTE);
+    for (uint16_t vector = 0; vector < (EXCEPTION_SIZE - 1); vector++) {
+        set_idt_descriptor(vector, idt_stub_table[vector], TASK_GATE_ATTRIBUTE);
     }
 
     // for (uint8_t vector = EXCEPTION_SIZE; vector < (IDT_MAXSIZE - 1); vector++) {
@@ -33,4 +38,3 @@ void init_idt()
 
     set_idtr(idtr);
 }
-

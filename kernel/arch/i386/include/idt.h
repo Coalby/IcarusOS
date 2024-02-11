@@ -25,21 +25,8 @@ typedef struct {
     uint32_t    base;
 } __attribute__((packed)) idt_reg;
 
-// TODO: Temporary. Refer to idt.c for more info
-typedef struct
-{
-    uint16_t ip;
-    uint16_t cs;
-    uint16_t flags;
-    uint16_t sp;
-    uint16_t ss;
-} __attribute__((packed)) Interrupt_Frame;
-
-__attribute__((aligned(0x10))) 
-static idt_entry_t idt[IDT_MAXSIZE];
-static idt_reg idtr;
-
-extern void *stub_table[];
+// Defined in isr.s
+extern void* idt_stub_table[];
 
 void set_idt_descriptor(uint8_t vector, void *isr, uint8_t attributes);
 void set_idtr(idt_reg idtr);
