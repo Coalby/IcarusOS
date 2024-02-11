@@ -105,7 +105,7 @@ void icarus_ascii() {
     terminal_writestring("            _/ >     \\__  \n");
     terminal_writestring("          / `/   Y  (   \\   \n");
     terminal_writestring("         (  (  `/\\ _/  ` |   \n");
-    terminal_writestring("         |   /\---`/     /  \n");
+    terminal_writestring("         |   /\\---`/     /  \n");
     terminal_writestring("          \\______>,_ _/    \n");
     terminal_writestring("             | `===` |    \n");
     terminal_setcolor(VGA_COLOR_LIGHT_GREY);
@@ -116,10 +116,10 @@ void kernel_main(void)
 {   
     // Initialize kernel interface
     terminal_init();
-    // terminal_writestring("Kernel initialized!\n");
+    terminal_writestring("Kernel initialized!\n");
     
     init_idt();
-    // terminal_writestring("IDT initialized!\n");
+    terminal_writestring("IDT initialized!\n");
 
     icarus_ascii();
 }

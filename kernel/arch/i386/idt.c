@@ -28,8 +28,8 @@ void init_idt()
     idtr.limit = 0xFFF;
     idtr.base  = (uintptr_t)&idt[0];
 
-    for (uint16_t vector = 0; vector < (EXCEPTION_SIZE - 1); vector++) {
-        set_idt_descriptor(vector, idt_stub_table[vector], TASK_GATE_ATTRIBUTE);
+    for (uint16_t vector = 0; vector < 48; vector++) {
+        set_idt_descriptor(vector, idt_stub_table[vector], INT_GATE_ATTRIBUTE);
     }
 
     // for (uint8_t vector = EXCEPTION_SIZE; vector < (IDT_MAXSIZE - 1); vector++) {

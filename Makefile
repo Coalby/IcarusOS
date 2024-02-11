@@ -9,13 +9,13 @@ KERNEL := $(BUILD_DIR)/kernel/
 
 OBJS := $(BOOT)/boot.o					\
 		$(BOOT)/idt.o					\
-		$(BOOT)/interrupts.o			\
-		$(BOOT)/isr.o					\
+		$(BOOT)/handlers.o			\
+		$(BOOT)/interrupts.o					\
 		$(KERNEL)/kernel.o				\
 		$(KERNEL)/utils.o
 
 # TODO: Find way to make LD_SCRIPT more modular (Move it out to main dir?)
-LD_SCRIPT := kernel/arch/i386/linker.ld
+LD_SCRIPT := kernel/linker.ld
 LD := i686-elf-gcc
 LD_FLAGS := -T $(LD_SCRIPT) -o $(OS_BIN) -ffreestanding -O2 -nostdlib $(OBJS) -lgcc
 

@@ -13,21 +13,11 @@ void enable_interrupts() {
 
 void ksegment_load() {
     __asm__ (
-        "push %eax;"
         "movw $0x10, %ax;"
         "movw %ax, %ds;"
         "movw %ax, %es;"
         "movw %ax, %fs;"
         "movw %ax, %gs;"
-        "pop %eax;"
     );
-}
-
-// Make sure to also call pop_general_reg()
-void push_general_reg() {
-    __asm__ ("popal;");
-}
-
-void pop_general_reg() {
-    __asm__ ("pushal;");
+    
 }
