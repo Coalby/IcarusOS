@@ -1,17 +1,5 @@
 #include "idt.h"
-#include <utils.h>
-#include <kernel.h>
-
-// TODO: This struct and the handler functions are temporary. Since the interrupts 
-//       require more than just these registers later on.
-__attribute__((interrupt)) void default_exception_handler(Interrupt_Frame *frame) {
-    disable_interrupts();
-    terminal_writestring("Unhandled Exception\n");
-}
-
-__attribute__((interrupt)) void default_interrupt_handler(Interrupt_Frame *frame) {
-    terminal_writestring("Unhandled Interrupt\n");
-}
+#include "handlers.h"
 
 void set_idt_descriptor(uint8_t vector, void *isr, uint8_t attributes)
 {
@@ -36,12 +24,12 @@ void init_idt()
     idtr.base  = (uintptr_t)&idt[0];
 
     for (uint8_t vector = 0; vector < (EXCEPTION_SIZE - 1); vector++) {
-        set_idt_descriptor(vector, default_exception_handler,TASK_GATE_ATTRIBUTE);
+        set_idt_descriptor(vector, stub_table[vector], TASK_GATE_ATTRIBUTE);
     }
 
-    for (uint8_t vector = EXCEPTION_SIZE; vector < (IDT_MAXSIZE - 1); vector++) {
-        set_idt_descriptor(vector, default_interrupt_handler,TASK_GATE_ATTRIBUTE);
-    }
+    // for (uint8_t vector = EXCEPTION_SIZE; vector < (IDT_MAXSIZE - 1); vector++) {
+    //     set_idt_descriptor(vector, stub_table[i],TASK_GATE_ATTRIBUTE);
+    // }
 
     set_idtr(idtr);
 }

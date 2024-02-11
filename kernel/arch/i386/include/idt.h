@@ -39,10 +39,8 @@ __attribute__((aligned(0x10)))
 static idt_entry_t idt[IDT_MAXSIZE];
 static idt_reg idtr;
 
+extern void *stub_table[];
+
 void set_idt_descriptor(uint8_t vector, void *isr, uint8_t attributes);
-
-__attribute__((interrupt)) void default_exception_handler(Interrupt_Frame *frame);
-__attribute__((interrupt)) void default_interrupt_handler(Interrupt_Frame *frame);
-
 void set_idtr(idt_reg idtr);
 void init_idt();

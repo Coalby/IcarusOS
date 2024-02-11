@@ -46,7 +46,7 @@ gdt_base:
         .byte 0
 
 .section .text
-.global _start
+.globl _start
 .type _start, @function
 _start:
 
