@@ -20,7 +20,7 @@ LD := i686-elf-gcc
 LD_FLAGS := -T $(LD_SCRIPT) -o $(OS_BIN) -ffreestanding -O2 -nostdlib $(OBJS) -lgcc
 
 
-.PHONY: all clean link qemu qemu-debug kernel isoimg
+.PHONY: all clean link qemu kernel isoimg test test-debug
 
 all: isoimg
 
@@ -39,9 +39,11 @@ isoimg: link
 qemu:
 	qemu-system-i386 -cdrom $(ISO_IMG)
 
-qemu-debug:
-	qemu-system-i386 -cdrom $(ISO_IMG) -d int
-
 clean:
 	make -C kernel clean
 	rm -rf iso icarus.*
+
+test: clean all qemu
+
+test-debug: test
+	qemu-system-i386 -cdrom $(ISO_IMG) -d int
