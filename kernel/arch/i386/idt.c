@@ -32,9 +32,5 @@ void init_idt()
         set_idt_descriptor(vector, idt_stub_table[vector], INT_GATE_ATTRIBUTE);
     }
 
-    // for (uint8_t vector = EXCEPTION_SIZE; vector < (IDT_MAXSIZE - 1); vector++) {
-    //     set_idt_descriptor(vector, stub_table[i],TASK_GATE_ATTRIBUTE);
-    // }
-
     set_idtr(idtr);
 }
