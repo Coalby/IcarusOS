@@ -3,6 +3,7 @@
 .macro ERROR_CODE num
 .globl isr\num
 isr\num:
+    cli
     pushl $\num         # interrupt number
     jmp isr
 .endm
@@ -10,17 +11,10 @@ isr\num:
 .macro NO_ERROR_CODE num
 .globl isr\num
 isr\num:
+    cli
     pushl $0            # dummy error code
     pushl $\num         # interrupt number
     jmp isr
-.endm
-
-.macro IRQ num
-.globl isr\num
-isr\num:
-    pushl $0            # dummy error code
-    pushl $\num         # interrupt number
-    jmp irq
 .endm
 
 # exceptions and CPU reserved interrupts 0 - 31
@@ -58,22 +52,22 @@ NO_ERROR_CODE 30
 NO_ERROR_CODE 31
 
 # IRQs
-IRQ 32
-IRQ 33
-IRQ 34
-IRQ 35
-IRQ 36
-IRQ 37
-IRQ 38
-IRQ 39
-IRQ 40
-IRQ 41
-IRQ 42
-IRQ 43
-IRQ 44
-IRQ 45
-IRQ 46
-IRQ 47
+NO_ERROR_CODE 32
+NO_ERROR_CODE 33
+NO_ERROR_CODE 34
+NO_ERROR_CODE 35
+NO_ERROR_CODE 36
+NO_ERROR_CODE 37
+NO_ERROR_CODE 38
+NO_ERROR_CODE 39
+NO_ERROR_CODE 40
+NO_ERROR_CODE 41
+NO_ERROR_CODE 42
+NO_ERROR_CODE 43
+NO_ERROR_CODE 44
+NO_ERROR_CODE 45
+NO_ERROR_CODE 46
+NO_ERROR_CODE 47
 
 .globl _pushalgen
 .type _pushalgen, @function
@@ -119,7 +113,7 @@ _popald:
     pop %eax
     ret
 
-.extern default_exception_handler
+.extern interrupt_handler
 isr:
     call _pushald
     call _pushalgen 
@@ -131,30 +125,11 @@ isr:
     movw %ax, %fs
     movw %ax, %gs
 
-    call default_exception_handler
+    call interrupt_handler
 
     call _popalgen
     call _popalgen
     
-    iret
-
-.extern default_interrupt_handler
-irq:
-    call _pushald
-    call _pushalgen 
-
-    # load kernel data segment
-    movw $0x10, %ax
-    movw %ax, %ds
-    movw %ax, %es
-    movw %ax, %fs
-    movw %ax, %gs
-
-    call default_interrupt_handler
-
-    call _popalgen
-    call _popalgen
-
     iret
 
 # TODO: Find better way to initialize table. Good loop examples on NASM are common

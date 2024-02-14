@@ -27,8 +27,7 @@ typedef struct
     uint32_t eip, cs, eflags, usermode_esp, usermode_ss;
 } interruptFrame;
 
-void default_exception_handler(interruptFrame *frame);
-void default_interrupt_handler();
+void remap_pic();
+void registerIRQhandler(uint8_t id, void *handler);
 
-// TODO: Replace other handlers with interrupt_handler(interruptFrame *frame)
-void interrupt_handler(interruptFrame *frame);
+void interrupt_handler(interruptFrame frame);

@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <idt.h>
+#include <pit.h>
 #include "kernel.h"
 
 /* Hardware text mode color constants. */
@@ -100,7 +101,7 @@ void terminal_writestring(const char* data)
 
 void icarus_ascii() {
     terminal_setcolor(VGA_COLOR_GREEN);
-    terminal_writestring("              /| _ /|     \n");
+    terminal_writestring("              /\\ _ /\\     \n");
     terminal_writestring("             ( * ^ *`)     \n");
     terminal_writestring("            _/ >     \\__  \n");
     terminal_writestring("          / `/   Y  (   \\   \n");
@@ -109,7 +110,7 @@ void icarus_ascii() {
     terminal_writestring("          \\______>,_ _/    \n");
     terminal_writestring("             | `===` |    \n");
     terminal_setcolor(VGA_COLOR_LIGHT_GREY);
-    terminal_writestring("\n               Bobo");
+    terminal_writestring("\n               Bobo\n");
 }
 
 void kernel_main(void)
@@ -122,4 +123,8 @@ void kernel_main(void)
     terminal_writestring("IDT initialized!\n");
 
     icarus_ascii();
+
+    timer_install(100);
+    terminal_writestring("IRQ0 initialized!\n");
+
 }

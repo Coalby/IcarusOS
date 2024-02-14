@@ -40,6 +40,9 @@ char *exceptions[] = {"Division By Zero",
                       "Security Exception",
                       "Unknown Interrupt"};
 
+typedef void (*handler)(interruptFrame *regs);
+handler irq_routines[16];
+
 void remap_pic() {
     outportb(MASTER_PIC_COMMAND, PIC_INIT);         // Initialize on IO base address for Master PIC
     outportb(SLAVE_PIC_COMMAND, PIC_INIT);          // Initialize on IO base address for Slave PIC
@@ -51,27 +54,26 @@ void remap_pic() {
     outportb(SLAVE_PIC_DATA, PIC_8086_MODE);        // Additional Slave PIC environment info
     outportb(MASTER_PIC_DATA, DEFAULT_MASTER_MASK); // Mask for Master PIC
     outportb(SLAVE_PIC_DATA, DEFAULT_SLAVE_MASK);   // Mask for Slave PIC
-}   
-
-void default_exception_handler(interruptFrame *frame) {
-    disable_interrupts();
-    terminal_writestring("EXCEPTION - ERROR CODE\n");
 }
 
-void default_interrupt_handler() {
-    terminal_writestring("DEFAULT INTERRUPT\n");
+void registerIRQhandler(uint8_t id, void *handler) {
+  irq_routines[id] = handler;
 }
 
-void interrupt_handler(interruptFrame *frame) {
-    if (frame->interrupt >= 32 && frame->interrupt <= 47) {
-        if (frame->interrupt >= 40) {
-            outportb(0xA0, 0x20);
+// TODO: Find better way to format interrupts ; Work on debugging system
+void interrupt_handler(interruptFrame frame) {
+    if (frame.interrupt >= 32 && frame.interrupt <= 47) {
+        terminal_writestring("INTERRUPT\n");
+        if (irq_routines[frame.interrupt - 32]) {
+            irq_routines[frame.interrupt - 32](&frame);
         }
 
+        if (frame.interrupt >= 40) {
+            outportb(0xA0, 0x20);
+        }
         outportb(0x20, 0x20);
-
-        terminal_writestring("INTERRUPT\n");
-    } else if (frame->interrupt <=31) {
-        terminal_writestring("EXCEPTION\n");
+    } else if (frame.interrupt <=31) {
+        disable_interrupts();
+        terminal_writestring(exceptions[frame.interrupt]);
     }
 }

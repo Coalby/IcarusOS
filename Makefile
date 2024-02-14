@@ -11,6 +11,7 @@ OBJS := $(BOOT)/boot.o					\
 		$(BOOT)/idt.o					\
 		$(BOOT)/handlers.o				\
 		$(BOOT)/interrupts.o			\
+		$(BOOT)/pit.o					\
 		$(BOOT)/system.o				\
 		$(KERNEL)/kernel.o				\
 		$(KERNEL)/utils.o

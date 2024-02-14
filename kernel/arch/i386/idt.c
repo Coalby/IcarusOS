@@ -1,4 +1,5 @@
 #include "idt.h"
+#include "handlers.h"
 #include <utils.h>
 #include <kernel.h>
 
@@ -19,18 +20,19 @@ void set_idt_descriptor(uint8_t vector, void *isr, uint8_t attributes)
 
 void set_idtr(idt_reg idtr) {
     __asm__ ("lidt %0" : : "m" (idtr));
-    __asm__ ("sti");
 } 
 
-// TODO: Finish init_idt(); Need to implement idt stub
 void init_idt()
 {
     idtr.limit = 0xFFF;
     idtr.base  = (uintptr_t)&idt[0];
+    
+    remap_pic();
 
     for (uint16_t vector = 0; vector < 48; vector++) {
         set_idt_descriptor(vector, idt_stub_table[vector], INT_GATE_ATTRIBUTE);
     }
 
     set_idtr(idtr);
+    enable_interrupts();
 }
