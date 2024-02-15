@@ -34,4 +34,5 @@ void init_idt()
     }
 
     set_idtr(idtr);
+    enable_interrupts();        // TODO: Enabling interrupts is currently causing QEMU crashing
 }

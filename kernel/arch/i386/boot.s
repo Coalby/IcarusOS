@@ -49,9 +49,7 @@ gdt_base:
 .globl _start
 .type _start, @function
 _start:
-
-        # set up stack pointer (esp)
-        mov $stack_top, %esp
+        cli
         
         lgdt (gdtr)
         
@@ -66,6 +64,9 @@ start32:
         movw %ax, %fs
         movw %ax, %gs
         movw %ax, %ss
+
+        # set up stack pointer (esp)
+        mov $stack_top, %esp
         
         # Kernel
         call kernel_main

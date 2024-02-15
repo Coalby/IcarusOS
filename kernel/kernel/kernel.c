@@ -125,10 +125,8 @@ void kernel_main(void)
 
     icarus_ascii();
 
-    // timer_install(100);
+    timer_install(100);
     terminal_writestring("IRQ0 initialized!\n");
-
-    enable_interrupts();
 
     for (;;) {
         

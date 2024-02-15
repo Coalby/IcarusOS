@@ -12,8 +12,8 @@ void timer_install(uint16_t hertz) {
     uint8_t h = (uint8_t) (divisor >> 8);
     
     outportb(PIT_COMMAND, 0x36);
-    outportb(PIT_DATA0, l);    // Low byte of divisor
-    outportb(PIT_DATA0, h);      // High byte of divisor
+    outportb(PIT_DATA0, l);                 // Low byte of divisor
+    outportb(PIT_DATA0, h);                 // High byte of divisor
     registerIRQhandler(0, timer_handler);   // Sets up the system clock by installing the timer handler into IRQ0
 }
 
