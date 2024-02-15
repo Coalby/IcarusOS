@@ -75,5 +75,7 @@ void interrupt_handler(interruptFrame *frame) {
     } else if (frame->interrupt <=31) {
         disable_interrupts();
         terminal_writestring(exceptions[frame->interrupt]);
+    } else {
+        terminal_writestring("PANIC!");
     }
 }

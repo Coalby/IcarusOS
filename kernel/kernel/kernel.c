@@ -122,11 +122,11 @@ void kernel_main(void)
     
     init_idt();
     terminal_writestring("IDT initialized!\n");
+    
+    timer_install(100);
+    terminal_writestring("PIT initialized!\n");
 
     icarus_ascii();
-
-    timer_install(100);
-    terminal_writestring("IRQ0 initialized!\n");
 
     for (;;) {
         

@@ -26,7 +26,7 @@ typedef struct {
 } __attribute__((packed)) idt_reg;
 
 // Defined in isr.s
-extern void* idt_stub_table[];
+extern const char isr0[];
 
 void set_idt_descriptor(uint8_t vector, void *isr, uint8_t attributes);
 void set_idtr(idt_reg idtr);
