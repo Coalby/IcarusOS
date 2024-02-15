@@ -129,6 +129,7 @@ isr:
 
     call _popalgen
     call _popalgen
+    add $8, %esp
     
     iret
 

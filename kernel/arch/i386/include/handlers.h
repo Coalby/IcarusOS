@@ -27,7 +27,9 @@ typedef struct
     uint32_t eip, cs, eflags, usermode_esp, usermode_ss;
 } interruptFrame;
 
-void remap_pic();
-void registerIRQhandler(uint8_t id, void *handler);
+typedef void (*handler)(interruptFrame *regs);
 
-void interrupt_handler(interruptFrame frame);
+void remap_pic();
+void registerIRQhandler(uint8_t id, handler handler);
+
+void interrupt_handler(interruptFrame *frame);

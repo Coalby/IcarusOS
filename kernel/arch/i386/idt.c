@@ -24,8 +24,8 @@ void set_idtr(idt_reg idtr) {
 
 void init_idt()
 {
-    idtr.limit = 0xFFF;
-    idtr.base  = (uintptr_t)&idt[0];
+    idtr.limit = (uint16_t) (IDT_MAXSIZE * sizeof(idt_entry_t)) - 1;
+    idtr.base  = (uint32_t)&idt;
     
     remap_pic();
 
@@ -34,5 +34,4 @@ void init_idt()
     }
 
     set_idtr(idtr);
-    enable_interrupts();
 }

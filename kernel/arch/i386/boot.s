@@ -20,11 +20,11 @@ stack_bottom:
 stack_top:
 
 .section .data
-.align 4
 gdtr:
-        .word gdtr-gdt_base-1
+        .word 0xFFFF
         .long gdt_base
 
+.align 4
 gdt_base:
         /* Null Descriptor */
         .quad 0
