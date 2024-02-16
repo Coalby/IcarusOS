@@ -24,15 +24,13 @@ void set_idtr(idt_reg idtr) {
 
 void init_idt()
 {
-    const char *isr = isr0;
-
     idtr.limit = (uint16_t) (IDT_MAXSIZE * sizeof(idt_entry_t)) - 1;
     idtr.base  = (uint32_t)&idt;
     
     remap_pic();
 
     for (uint16_t vector = 0; vector < 256; vector++) {
-        set_idt_descriptor(vector, isr, INT_GATE_ATTRIBUTE);
+        set_idt_descriptor(vector, idt_stub_table[vector], INT_GATE_ATTRIBUTE);
     }
 
     set_idtr(idtr);

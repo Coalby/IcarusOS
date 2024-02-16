@@ -62,7 +62,7 @@ void registerIRQhandler(uint8_t id, handler handler) {
 // TODO: Find better way to format interrupts ; Work on debugging system
 void interrupt_handler(interruptFrame frame) {
     if (frame.interrupt >= 32) {
-        terminal_writestring("INTERRUPT\n");
+        // terminal_writestring("INTERRUPT\n");
         if (irq_routines[frame.interrupt - 32]) {
             handler handle = irq_routines[frame.interrupt - 32];
             handle(&frame);
