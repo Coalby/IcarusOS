@@ -11,11 +11,11 @@ void set_idt_descriptor(uint8_t vector, void *isr, uint8_t attributes)
 {
     idt_entry_t *entry = &idt[vector];
 
-    entry->offset_1         = (uint16_t) ((uint32_t) isr & 0xFFFF);
+    entry->offset_1         = (uint16_t) ((uint32_t)isr & 0xFFFF);
     entry->segment_selector = 0x08;     // Kernel Mode Code Segment
     entry->reserved         = 0;
     entry->attributes       = attributes;
-    entry->offset_2         = (uint16_t) ((uint32_t) isr >> 16);
+    entry->offset_2         = (uint16_t) ((uint32_t)isr >> 16);
 }
 
 void set_idtr(idt_reg idtr) {
@@ -33,9 +33,7 @@ void init_idt()
 
     for (uint16_t vector = 0; vector < 256; vector++) {
         set_idt_descriptor(vector, isr, INT_GATE_ATTRIBUTE);
-        isr += 16;
     }
 
     set_idtr(idtr);
-    enable_interrupts();
 }

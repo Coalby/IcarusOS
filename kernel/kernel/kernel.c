@@ -125,6 +125,7 @@ void kernel_main(void)
     
     timer_install(100);
     terminal_writestring("PIT initialized!\n");
+    enable_interrupts();
 
     icarus_ascii();
 

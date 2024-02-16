@@ -32,4 +32,4 @@ typedef void (*handler)(interruptFrame *regs);
 void remap_pic();
 void registerIRQhandler(uint8_t id, handler handler);
 
-void interrupt_handler(interruptFrame *frame);
+void interrupt_handler(interruptFrame frame);
