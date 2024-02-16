@@ -9,6 +9,7 @@ KERNEL := $(BUILD_DIR)/kernel/
 
 OBJS := $(BOOT)/boot.o					\
 		$(BOOT)/idt.o					\
+		$(BOOT)/keyboard.o				\
 		$(BOOT)/handlers.o				\
 		$(BOOT)/interrupts.o			\
 		$(BOOT)/pit.o					\

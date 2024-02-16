@@ -21,9 +21,9 @@ void timer_handler(interruptFrame *frame) {
     global_ticks++;
 
     // Print every 18 clocks (approximately 1 second)
-    if (global_ticks % 18 == 0)
-    {
-        terminal_setcolor(global_ticks % 15);
-        terminal_writestring("PIT has been called! ");
-    }
+    // if (global_ticks % 18 == 0)
+    // {
+    //     terminal_setcolor(global_ticks % 15);
+    //     terminal_writestring("PIT has been called! ");
+    // }
 }
