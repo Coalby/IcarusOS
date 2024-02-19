@@ -1,6 +1,5 @@
 #include "pit.h"
 #include "system.h"
-#include <utils.h>
 #include <kernel.h>
 
 uint64_t global_ticks = 0;
@@ -23,6 +22,7 @@ void timer_handler(interruptFrame *frame) {
     // Print every 18 clocks (approximately 1 second)
     if (global_ticks % 18 == 0)
     {
-        terminal_writestring("One second has passed\n");
+        terminal_setcolor(global_ticks % 15);
+        terminal_writestring("PIT has been called! ");
     }
 }

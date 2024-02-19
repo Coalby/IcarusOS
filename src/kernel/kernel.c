@@ -1,7 +1,8 @@
 #include <stdbool.h>
 #include <idt.h>
 #include <pit.h>
-#include <utils.h>
+#include <system.h>
+#include <keyboard.h>
 #include "kernel.h"
 
 /* Hardware text mode color constants. */
@@ -125,6 +126,8 @@ void kernel_main(void)
     
     timer_install(100);
     terminal_writestring("PIT initialized!\n");
+    
+    keyboard_install();
     enable_interrupts();
 
     icarus_ascii();

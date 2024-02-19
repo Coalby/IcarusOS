@@ -9,3 +9,15 @@ uint8_t inportb(uint16_t _port) {
   __asm__ __volatile__("inb %1, %0" : "=a"(rv) : "dN"(_port));
   return rv;
 }
+
+void disable_interrupts() {
+    __asm__ (
+        "cli;"
+    );
+}
+
+void enable_interrupts() {
+    __asm__ (
+        "sti;"
+    );
+}
