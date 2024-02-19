@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <idt.h>
 #include <pit.h>
-#include <utils.h>
+#include <system.h>
 #include <keyboard.h>
 #include "kernel.h"
 
@@ -124,7 +124,7 @@ void kernel_main(void)
     init_idt();
     terminal_writestring("IDT initialized!\n");
     
-    timer_install(100000);
+    timer_install(100);
     terminal_writestring("PIT initialized!\n");
     
     keyboard_install();
