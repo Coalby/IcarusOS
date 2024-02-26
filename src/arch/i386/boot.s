@@ -52,6 +52,10 @@ _start:
         cli
         
         lgdt (gdtr)
+
+        mov %cr0, %eax  
+        or $1 ,%al       # set PE (Protection Enable) bit in CR0 (Control Register 0)
+        mov %eax, %cr0
         
         ljmp $0x08, $start32
 
