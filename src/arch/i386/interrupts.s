@@ -154,3 +154,11 @@ idt_stub_table:
     .long isr37
     .long isr38
     .long isr39
+    .long isr40
+    .long isr41
+    .long isr42
+    .long isr43
+    .long isr44
+    .long isr45
+    .long isr46
+    .long isr47

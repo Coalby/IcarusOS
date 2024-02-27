@@ -20,6 +20,7 @@ stack_bottom:
 stack_top:
 
 .section .data
+.equ memmap_entries, $0x8500
 gdtr:
         .word 0xFFFF
         .long gdt_base
@@ -79,5 +80,23 @@ start32:
         cli
 .hang:  hlt
         jmp .hang
+
+_get_mem_map:
+        mov $0x8504, %di
+        xor %ebx, %ebx
+        xor %bp, %bp
+        mov $0x534D4150, %edx
+        mov $0xE820, %eax
+        # movl $1, $20(%di, %es)
+
+        int $0x15
+        jc .error
+
+        cmp $0x534D4150, %eax
+        jne .error
+        test %ebx, %ebx
+        jz .error
+
+.error:
 
 .size _start, . - _start
