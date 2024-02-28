@@ -65,7 +65,7 @@ void interrupt_handler(interruptFrame *frame) {
         // terminal_writestring("INTERRUPT\n");
         if (irq_routines[frame->interrupt - 32]) {
             handler handle = irq_routines[frame->interrupt - 32];
-            handle(&frame);
+            handle(frame);
         }
 
         if (frame->interrupt >= 40) {
