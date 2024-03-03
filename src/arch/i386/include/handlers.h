@@ -1,8 +1,9 @@
+// Contains Interrupt Handler Implementation
 #pragma once
 
 #include <stdint.h>
 
-// PIC definitions
+// PIC (Programmable Interrupt Controller) definitions
 #define MASTER_PIC_COMMAND  0x20
 #define SLAVE_PIC_COMMAND   0xA0
 #define MASTER_PIC_DATA     0x21
