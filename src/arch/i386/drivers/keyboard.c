@@ -42,7 +42,7 @@ void keyboard_handler(interruptFrame *frame) {
     scancode = inportb(0x60);
 
     if (scancode & 0x80) {
-
+        // TODO: Add handling for shift || alt || control keys
     } else {
         terminal_putchar(characterTable[scancode]);
     }

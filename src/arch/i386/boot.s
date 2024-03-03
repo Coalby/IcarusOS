@@ -20,7 +20,8 @@ stack_bottom:
 stack_top:
 
 .section .data
-.equ memmap_entries, 0x8500
+
+# Declare GDT (Global Descriptor Table)
 gdtr:
         .word 0xFFFF
         .long gdt_base

@@ -1,5 +1,6 @@
 .code32
 
+# TODO: Fix isr macros to better coincide with DRY principles
 .macro ERROR_CODE num
 .globl isr\num
 isr\num:
@@ -111,7 +112,7 @@ isr:
     
     iret
 
-# TODO: Implement way to integrate suggestions based off of user "nullplan" for further adaptability
+# TODO: Integrate method to initialize entire IDT (Interrupt Descriptor Table) using loop in assembly
 .globl idt_stub_table
 idt_stub_table:
     .long isr0
