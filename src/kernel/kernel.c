@@ -124,7 +124,7 @@ void kernel_main(void)
     init_idt();
     terminal_writestring("IDT initialized!\n");
     
-    timer_install(100);
+    timer_install(100000);
     terminal_writestring("PIT initialized!\n");
     
     keyboard_install();
@@ -132,6 +132,7 @@ void kernel_main(void)
 
     icarus_ascii();
 
+    // Infinite Hang
     for (;;) {
         
     }
