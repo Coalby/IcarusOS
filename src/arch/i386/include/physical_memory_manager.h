@@ -36,16 +36,26 @@ inline void malloc(uint32_t size) {
         terminal_writestring("Cannot allocate memory; Not enough memory space!");
         return;
     } 
-    
 
-    // TODO: Mark as used
-    // TODO: Return address
+    while (size != 0x00) {
+        set_block(block_offset);
+
+        block_offset++;
+        size--;
+    }
+
+    return;
 }
 
-inline void free(uint32_t bit) {
-    // TODO: Find the block  
-    // TODO: unset all 
-    
+inline void free(uint32_t bit, uint32_t size) {
+    uint32_t curr_bit = bit;
+
+    while (size != 0x00) {
+        unset_block(curr_bit);
+
+        curr_bit++;
+        size--;
+    }
 }
 
 // Maybe add last free block pointer?
@@ -59,11 +69,16 @@ inline uint32_t find_free_blocks(uint32_t size) {
             free_region_size++;
 
             if (free_region_size == size) {
-                return block_offset - size;
+                return block_offset;
             }
         }
 
+        block_offset += free_region_size + 1;
         free_region_size = 0;
+
+        if (block_offset % 16 == 0) {
+            mem_iter++;
+        }
     }
 
     return -1;
