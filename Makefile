@@ -11,6 +11,7 @@ OBJS := $(BOOT_BUILD)/boot.o					\
 		$(BOOT_BUILD)/handlers.o				\
 		$(BOOT_BUILD)/interrupts.o			\
 		$(BOOT_BUILD)/pit.o					\
+		$(BOOT_BUILD)/physical_memory_manager.o 	\
 		$(BOOT_BUILD)/system.o				\
 		$(DRIVERS_BUILD)/keyboard.o			\
 		$(KERNEL_BUILD)/kernel.o
