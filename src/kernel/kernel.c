@@ -3,6 +3,7 @@
 #include <pit.h>
 #include <system.h>
 #include <keyboard.h>
+#include <physical_memory_manager.h>
 #include "kernel.h"
 
 /* Hardware text mode color constants. */
@@ -120,6 +121,9 @@ void kernel_main(void)
     // Initialize kernel interface
     terminal_init();
     terminal_writestring("Kernel initialized!\n");
+
+    init_memory_manager();
+    init_memory_region(0x100000, 0x7EE0000);
     
     init_idt();
     terminal_writestring("IDT initialized!\n");
