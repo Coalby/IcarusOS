@@ -4,8 +4,8 @@
 
 static const char characterTable[] = {
     0,    0,    '1',  '2',  '3',  '4',  '5',  '6',  '7',  '8',  '9',  '0',
-    '-',  '=',  0,    0x09, 'q',  'w',  'e',  'r',  't',  'y',  'u',  'i',
-    'o',  'p',  '[',  ']',  0,    0,    'a',  's',  'd',  'f',  'g',  'h',
+    '-',  '=',  'B',    0x09, 'q',  'w',  'e',  'r',  't',  'y',  'u',  'i',
+    'o',  'p',  '[',  ']',  'E',    0,    'a',  's',  'd',  'f',  'g',  'h',
     'j',  'k',  'l',  ';',  '\'', '`',  0,    '\\', 'z',  'x',  'c',  'v',
     'b',  'n',  'm',  ',',  '.',  '/',  0,    '*',  0x0F, ' ',  0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -44,6 +44,23 @@ void keyboard_handler(interruptFrame *frame) {
     if (scancode & 0x80) {
         // TODO: Add handling for shift || alt || control keys
     } else {
-        terminal_putchar(characterTable[scancode]);
+        switch (scancode) {
+            case 0x0E:
+                terminal_removechar();
+                break;
+                
+            case 0x1C:
+                terminal_putchar('\n');
+
+                // TODO: Move this into global function in external file to reduce coupling
+                terminal_setcolor(2);
+                terminal_writestring("user@test:");
+                terminal_setcolor(7);
+
+                break;
+
+            default:
+                terminal_putchar(characterTable[scancode]);
+        }
     }
 }

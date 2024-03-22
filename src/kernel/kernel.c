@@ -90,6 +90,12 @@ void terminal_putchar(char c)
     }
 }
 
+// TODO: Add edge cases
+void terminal_removechar() {
+    terminal_column--;
+    terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+}
+
 void terminal_write(const char* data, size_t size)
 {
     for (size_t i = 0; i < size; i++) {
@@ -134,7 +140,7 @@ void kernel_main(void)
     keyboard_install();
     enable_interrupts();
 
-    icarus_ascii();
+    // icarus_ascii();
 
     // Infinite Hang
     for (;;) {
