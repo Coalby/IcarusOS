@@ -9,8 +9,9 @@
 - [x] Basic Boot (GRUB)
 - [x] BIOS Video Services
 - [x] GDT
-- [ ] IDT
-- [ ] PMM
+- [x] IDT
+- [x] PMM
+- [ ] Basic Terminal Functionality
 - [ ] VMM
 - [ ] Parse MADT
 - [ ] apic (ioapic/lapic)
