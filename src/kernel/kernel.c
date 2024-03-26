@@ -134,7 +134,7 @@ void kernel_main(void)
     init_idt();
     terminal_writestring("IDT initialized!\n");
     
-    timer_install(100000);
+    timer_install((uint16_t) 100);
     terminal_writestring("PIT initialized!\n");
     
     keyboard_install();
