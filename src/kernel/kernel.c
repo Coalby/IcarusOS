@@ -91,6 +91,7 @@ void terminal_putchar(char c)
 }
 
 // TODO: Add edge cases
+// TODO: Replace terminal_putentryat with a correct call to terminal_putchar
 void terminal_removechar() {
     terminal_column--;
     terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
@@ -108,7 +109,28 @@ void terminal_writestring(const char* data)
     terminal_write(data, strlen(data));
 }
 
-void icarus_ascii() {
+// Only allows 2 Byte ouput
+void printf_hex(const uint32_t num)
+{
+    // Consider placing outside scope in external file for single initialization
+    const uint8_t hex_digits[] = "0123456789ABCDEF";
+    uint8_t buf[16] = {0};
+    uint32_t n = num;
+
+    terminal_write("0x", 2);
+
+    uint8_t i = 16;
+    while ((n /= 16) != 0) {
+        buf[i--] = hex_digits[n % 16];
+    }
+
+    // TODO: Hard-coded size == Bad;
+    //       Find way to allocate based off of size even though it most likely won't change here
+    terminal_write(buf, 16);
+}
+
+void icarus_ascii() 
+{
     terminal_setcolor(VGA_COLOR_GREEN);
     terminal_writestring("              /\\ _ /\\     \n");
     terminal_writestring("             ( * ^ *`)     \n");

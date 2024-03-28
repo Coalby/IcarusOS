@@ -16,6 +16,8 @@ void init_memory_region(const uint32_t base_address, const uint32_t size) {
     for (;num_blocks > 0; num_blocks--) {
         unset_block(mem_offset++);
     }
+
+    printf_hex(base_address);
 }
 
 // Deinitializes region of memory set by parameters (sets region as reserved)

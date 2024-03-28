@@ -5,6 +5,7 @@
 
 #include <stdint.h>
 #include <system.h>
+#include <kernel.h>
 
 #define BLOCK_SIZE              4096        // 4 Kb
 #define BLOCKS_PER_BYTE         8           // Each bit represents a block
@@ -57,6 +58,7 @@ static inline int32_t find_free_blocks(const uint32_t size) {
                     free_region_size++;
 
                     if (free_region_size == size) {
+                        // printf_hex((index * 32) + bit_offset);
                         return (index * 32) + bit_offset;
                     }
                 } else {
