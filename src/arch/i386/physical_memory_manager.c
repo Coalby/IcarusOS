@@ -8,7 +8,7 @@ void init_memory_manager() {
     memset(memory_map, 0xFF, MAX_BLOCKS / BLOCKS_PER_BYTE);
 }
 
-// Initializes region of memory set by parameters (sets region as available)
+// Initializes region of memory set by parameters (sets region as available in memory map)
 void init_memory_region(const uint32_t base_address, const uint32_t size) {
     uint32_t mem_offset = base_address / BLOCK_SIZE;
     uint32_t num_blocks = size / BLOCK_SIZE;
@@ -17,10 +17,19 @@ void init_memory_region(const uint32_t base_address, const uint32_t size) {
         unset_block(mem_offset++);
     }
 
+    // TODO: This is ugly and needs to be reformated for better readability
+    terminal_setcolor(VGA_COLOR_GREEN);
+    terminal_writestring("Initialized memory region...\n");
+    terminal_writestring("Base Address: ");
+    terminal_setcolor(VGA_COLOR_LIGHT_GREY);
     printf_hex(base_address);
+    terminal_setcolor(VGA_COLOR_GREEN);
+    terminal_writestring("Size: ");
+    terminal_setcolor(VGA_COLOR_LIGHT_GREY);
+    printf_hex(size);
 }
 
-// Deinitializes region of memory set by parameters (sets region as reserved)
+// Deinitializes region of memory set by parameters (sets region as reserved in memory map)
 void deinit_memory_region(const uint32_t base_address, const uint32_t size) {
     uint32_t mem_offset = base_address / BLOCK_SIZE;
     uint32_t num_blocks = size / BLOCK_SIZE;
@@ -28,4 +37,15 @@ void deinit_memory_region(const uint32_t base_address, const uint32_t size) {
     for (;num_blocks > 0; num_blocks--) {
         set_block(mem_offset++);
     }
+
+    // TODO: This is ugly and needs to be reformated for better readability
+    terminal_setcolor(VGA_COLOR_GREEN);
+    terminal_writestring("Deinitialized memory region...\n");
+    terminal_writestring("Base Address: ");
+    terminal_setcolor(VGA_COLOR_LIGHT_GREY);
+    printf_hex(base_address);
+    terminal_setcolor(VGA_COLOR_GREEN);
+    terminal_writestring("Size: ");
+    terminal_setcolor(VGA_COLOR_LIGHT_GREY);
+    printf_hex(size);
 }

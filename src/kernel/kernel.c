@@ -5,26 +5,6 @@
 #include <keyboard.h>
 #include <physical_memory_manager.h>
 #include "kernel.h"
-
-/* Hardware text mode color constants. */
-enum vga_color {
-	VGA_COLOR_BLACK = 0,
-	VGA_COLOR_BLUE = 1,
-	VGA_COLOR_GREEN = 2,
-	VGA_COLOR_CYAN = 3,
-	VGA_COLOR_RED = 4,
-	VGA_COLOR_MAGENTA = 5,
-	VGA_COLOR_BROWN = 6,
-	VGA_COLOR_LIGHT_GREY = 7,
-	VGA_COLOR_DARK_GREY = 8,
-	VGA_COLOR_LIGHT_BLUE = 9,
-	VGA_COLOR_LIGHT_GREEN = 10,
-	VGA_COLOR_LIGHT_CYAN = 11,
-	VGA_COLOR_LIGHT_RED = 12,
-	VGA_COLOR_LIGHT_MAGENTA = 13,
-	VGA_COLOR_LIGHT_BROWN = 14,
-	VGA_COLOR_WHITE = 15,
-};
  
 static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
@@ -112,21 +92,19 @@ void terminal_writestring(const char* data)
 // Only allows 2 Byte ouput
 void printf_hex(const uint32_t num)
 {
-    // Consider placing outside scope in external file for single initialization
-    const uint8_t hex_digits[] = "0123456789ABCDEF";
-    uint8_t buf[16] = {0};
-    uint32_t n = num;
+    const char hex_digits[] = "0123456789ABCDEF";
+    uint8_t shift = 0;
 
     terminal_write("0x", 2);
 
-    uint8_t i = 16;
-    while ((n /= 16) != 0) {
-        buf[i--] = hex_digits[n % 16];
+    // Start from the most significant nibble
+    while (shift < 32) {
+        uint8_t digit = (num >> (28 - shift)) & 0xF; // Extract the nibble
+        terminal_putchar(hex_digits[digit]); // Print the digit
+        shift += 4;
     }
 
-    // TODO: Hard-coded size == Bad;
-    //       Find way to allocate based off of size even though it most likely won't change here
-    terminal_write(buf, 16);
+    terminal_putchar('\n');
 }
 
 void icarus_ascii() 
@@ -148,19 +126,21 @@ void kernel_main(void)
 {   
     // Initialize kernel interface
     terminal_init();
-    terminal_writestring("Kernel initialized!\n");
+    terminal_setcolor(VGA_COLOR_GREEN);
+    terminal_writestring("Kernel initialized...\n");
 
-    init_memory_manager();
-    init_memory_region(0x100000, 0x7EE0000);
-    
     init_idt();
-    terminal_writestring("IDT initialized!\n");
+    terminal_writestring("Interrupt descriptor table initialized...\n");
     
     timer_install((uint16_t) 100);
-    terminal_writestring("PIT initialized!\n");
+    terminal_writestring("Periodic interval timer initialized...\n");
     
     keyboard_install();
     enable_interrupts();
+    terminal_writestring("Interrupts enabled...\n");
+
+    init_memory_manager();
+    init_memory_region(0x100000, 0x7EE0000);
 
     // icarus_ascii();
 
