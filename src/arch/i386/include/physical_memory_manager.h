@@ -72,23 +72,6 @@ static inline int32_t find_free_blocks(const uint32_t size) {
 }
 
 // Takes the necessary amount of blocks as size parameter and allocates memory space
-// inline void *allocate(const uint32_t size) {
-//     uint32_t block_offset = find_free_blocks(size);
-
-//     if (block_offset == -1) {
-//         return;
-//     } 
-
-//     // TODO: Fix iteration
-//     // while (size != 0x00) {
-//     //     set_block(block_offset);
-
-//     //     block_offset++;
-//     //     size--;
-//     // }
-
-//     return;
-// }
 
 void init_memory_manager();
 void init_memory_region(const uint32_t base_address, const uint32_t size);

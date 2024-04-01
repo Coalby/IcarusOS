@@ -1,3 +1,6 @@
+// TODO: This is NOT currently in use anywhere but is necessary once a 
+//          Virtual memory manager is introduced to Icarus
+
 #pragma once
 
 #include <stdint.h>

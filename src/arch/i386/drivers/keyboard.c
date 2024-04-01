@@ -32,8 +32,17 @@ static const char shiftedCharacterTable[] = {
     0,    0,    0,    0,    0,    0,    0,    0x2C,
 };
 
+static char buffer[MAX_BUFFER_SIZE];
+static uint8_t buffer_index = 0;
+
 void keyboard_install() {
     registerIRQhandler(1, keyboard_handler);
+}
+
+void clear_buffer() {
+    for (uint8_t buffer_clear_index = 0; buffer_clear_index < MAX_BUFFER_SIZE; buffer_clear_index++) {
+            buffer[buffer_clear_index] = ' ';
+    }
 }
 
 void keyboard_handler(interruptFrame *frame) {
@@ -48,7 +57,10 @@ void keyboard_handler(interruptFrame *frame) {
             // case 0x0E:
             //     terminal_removechar();
             //     break;
-                
+            case 0x1E:
+                terminal_writestring("\nSize (4kb Blocks) to allocate:");
+            
+                break;
             case 0x1C:
                 terminal_putchar('\n');
 
@@ -57,9 +69,14 @@ void keyboard_handler(interruptFrame *frame) {
                 terminal_writestring("user@home:");
                 terminal_setcolor(7);
 
+                terminal_write(buffer, MAX_BUFFER_SIZE);
+                clear_buffer();
+
                 break;
 
             default:
+                buffer[buffer_index] = characterTable[scancode];
+                buffer_index++;
                 terminal_putchar(characterTable[scancode]);
         }
     }

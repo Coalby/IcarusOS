@@ -141,6 +141,7 @@ void kernel_main(void)
 
     init_memory_manager();
     init_memory_region(0x100000, 0x7EE0000);
+    printf_hex(find_free_blocks(32));
 
     // icarus_ascii();
 
