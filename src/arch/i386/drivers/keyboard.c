@@ -61,6 +61,10 @@ void keyboard_handler(interruptFrame *frame) {
                 terminal_writestring("\nSize (4kb Blocks) to allocate:");
             
                 break;
+            case 0x17:
+                terminal_putchar('\n');
+                icarus_ascii();
+                break;
             case 0x1C:
                 terminal_putchar('\n');
 
@@ -69,7 +73,7 @@ void keyboard_handler(interruptFrame *frame) {
                 terminal_writestring("user@home:");
                 terminal_setcolor(7);
 
-                terminal_write(buffer, MAX_BUFFER_SIZE);
+                // terminal_write(buffer, MAX_BUFFER_SIZE);
                 clear_buffer();
 
                 break;
