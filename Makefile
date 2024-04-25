@@ -7,13 +7,14 @@ KERNEL_BUILD 	:= $(BUILD_DIR)/kernel/
 DRIVERS_BUILD 	:= $(BOOT_BUILD)/drivers
 
 OBJS := $(BOOT_BUILD)/boot.o					\
-		$(BOOT_BUILD)/idt.o					\
+		$(BOOT_BUILD)/idt.o						\
 		$(BOOT_BUILD)/handlers.o				\
-		$(BOOT_BUILD)/interrupts.o			\
-		$(BOOT_BUILD)/pit.o					\
-		$(BOOT_BUILD)/physical_memory_manager.o 	\
-		$(BOOT_BUILD)/system.o				\
-		$(DRIVERS_BUILD)/keyboard.o			\
+		$(BOOT_BUILD)/interrupts.o				\
+		$(BOOT_BUILD)/lib.o						\
+		$(BOOT_BUILD)/pit.o						\
+		$(BOOT_BUILD)/physical_memory_manager.o \
+		$(BOOT_BUILD)/system.o					\
+		$(DRIVERS_BUILD)/keyboard.o				\
 		$(KERNEL_BUILD)/kernel.o
 
 # TODO: Find way to make LD_SCRIPT more modular (Move it out to main dir?)

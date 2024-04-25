@@ -17,7 +17,10 @@ void init_memory_region(const uint32_t base_address, const uint32_t size) {
         unset_block(mem_offset++);
     }
 
-    // TODO: This is ugly and needs to be reformated for better readability
+    init_memory_region_finished(base_address, size);
+}
+
+void init_memory_region_finished(const uint32_t base_address, const uint32_t size) {
     terminal_setcolor(VGA_COLOR_GREEN);
     terminal_writestring("Initialized memory region...\n");
     terminal_writestring("Base Address: ");
@@ -38,7 +41,10 @@ void deinit_memory_region(const uint32_t base_address, const uint32_t size) {
         set_block(mem_offset++);
     }
 
-    // TODO: This is ugly and needs to be reformated for better readability
+    deinit_memory_region_finished(base_address, size);
+}
+
+void deinit_memory_region_finished(const uint32_t base_address, const uint32_t size) {
     terminal_setcolor(VGA_COLOR_GREEN);
     terminal_writestring("Deinitialized memory region...\n");
     terminal_writestring("Base Address: ");

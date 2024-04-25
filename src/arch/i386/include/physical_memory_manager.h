@@ -76,3 +76,5 @@ static inline int32_t find_free_blocks(const uint32_t size) {
 void init_memory_manager();
 void init_memory_region(const uint32_t base_address, const uint32_t size);
 void deinit_memory_region(const uint32_t base_address, const uint32_t size);
+void init_memory_region_finished(const uint32_t base_address, const uint32_t size);
+void deinit_memory_region_finished(const uint32_t base_address, const uint32_t size);

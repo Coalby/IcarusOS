@@ -35,5 +35,6 @@ void terminal_putchar(char c);
 void terminal_removechar();
 void terminal_write(const char* data, size_t size);
 void terminal_writestring(const char* data);
+void printf_hex(const uint32_t num);
 void icarus_ascii();
 void kernel_main(void);

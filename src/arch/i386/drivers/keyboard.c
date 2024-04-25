@@ -1,4 +1,8 @@
 #include "keyboard.h"
+#include <lib.h>
+
+// TODO: Fix dependencies to allow for less decoupling
+#include <physical_memory_manager.h>
 
 // Keymaps from cavOS on github. Thanks malwarepad!
 
@@ -35,14 +39,19 @@ static const char shiftedCharacterTable[] = {
 static char buffer[MAX_BUFFER_SIZE];
 static uint8_t buffer_index = 0;
 
+// TODO: Implement boolean variable
+static uint8_t alloc_flag = 0;
+
 void keyboard_install() {
     registerIRQhandler(1, keyboard_handler);
 }
 
 void clear_buffer() {
     for (uint8_t buffer_clear_index = 0; buffer_clear_index < MAX_BUFFER_SIZE; buffer_clear_index++) {
-            buffer[buffer_clear_index] = ' ';
+            buffer[buffer_clear_index] = '\0';
     }
+
+    buffer_index = 0;
 }
 
 void keyboard_handler(interruptFrame *frame) {
@@ -58,8 +67,9 @@ void keyboard_handler(interruptFrame *frame) {
             //     terminal_removechar();
             //     break;
             case 0x1E:
-                terminal_writestring("\nSize (4kb Blocks) to allocate:");
-            
+                terminal_writestring("\nSize (4kb Blocks) to allocate: ");
+
+                alloc_flag = 1;
                 break;
             case 0x17:
                 terminal_putchar('\n');
@@ -67,13 +77,20 @@ void keyboard_handler(interruptFrame *frame) {
                 break;
             case 0x1C:
                 terminal_putchar('\n');
+                if (alloc_flag != 0) {
+                    terminal_writestring("Blocks allocated: ");
+                    printf_hex(uatoi(buffer));
+                    terminal_writestring("Block Offset Address: ");
+                    printf_hex(find_free_blocks(uatoi(buffer)));
+                    alloc_flag = 0;
+                }
 
                 // TODO: Move this into global function in external file to reduce coupling
                 terminal_setcolor(2);
                 terminal_writestring("user@home:");
                 terminal_setcolor(7);
 
-                // terminal_write(buffer, MAX_BUFFER_SIZE);
+                // terminal_writestring(buffer);
                 clear_buffer();
 
                 break;

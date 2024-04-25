@@ -24,8 +24,8 @@ void set_idtr(idt_reg idtr) {
 
 void init_idt()
 {
-    idtr.limit = (uint16_t) (IDT_MAXSIZE * sizeof(idt_entry_t)) - 1;
-    idtr.base  = (uint32_t)&idt;
+    idtr.limit = (uint16_t) (IDT_MAXSIZE * sizeof(idt_entry_t)) - 1;    // Size
+    idtr.base  = (uint32_t)&idt;                                        // Offset
     
     remap_pic();
 
