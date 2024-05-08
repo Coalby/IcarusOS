@@ -39,14 +39,12 @@ isoimg: link
 	cp grub.cfg iso/boot/grub/grub.cfg
 	grub-mkrescue -o $(ISO_IMG) iso
 
-qemu:
-	qemu-system-i386 -cdrom $(ISO_IMG)
-
 clean:
 	make -C src clean
 	rm -rf iso icarus.*
 
-test: clean all qemu
+test: clean all
+	qemu-system-i386 -cdrom $(ISO_IMG)
 
-test-debug: test
-	qemu-system-i386 -cdrom $(ISO_IMG) -d int
+test-debug: clean all
+	qemu-system-i386 -s -S -cdrom $(ISO_IMG)
