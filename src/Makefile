@@ -10,7 +10,7 @@ INCLUDE_DIR := include
 AS 			:= i686-elf-as
 CC 			:= i686-elf-gcc
 
-CFLAGS 		:= -std=gnu99 -O0 -g -ffreestanding -O2 -Wall -Wextra -I $(KERNEL_DIR)/$(INCLUDE_DIR) -I $(BOOT_DIR)/$(INCLUDE_DIR) -I $(DRIVER_DIR)/$(INCLUDE_DIR) -c
+CFLAGS 		:= -std=gnu99 -O2 -g -ffreestanding -Wall -Wextra -I $(KERNEL_DIR)/$(INCLUDE_DIR) -I $(BOOT_DIR)/$(INCLUDE_DIR) -I $(DRIVER_DIR)/$(INCLUDE_DIR) -c
 
 # TODO: Fix these terrible object variables
 KERNEL_SRC 	:= $(wildcard $(KERNEL_DIR)/*.c)

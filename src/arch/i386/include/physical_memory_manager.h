@@ -14,8 +14,12 @@
 #define SYSTEM_MEM_SIZE         0xFFFFFFFF
 #define MAX_BLOCKS              (SYSTEM_MEM_SIZE / BLOCK_SIZE)
 
+#pragma GCC push_options
+#pragma GCC optimize ("Og")
+
 static uint32_t *memory_map;    // Each memory map entry contains 32 blocks
 
+#pragma GCC pop_options
 // These are declared as inline due to their high amount of usage
 // This increases memory speed at the cost of code size
 

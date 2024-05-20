@@ -48,5 +48,5 @@ clean:
 
 test: clean all qemu
 
-test-debug: test
-	qemu-system-i386 -cdrom $(ISO_IMG) -d int
+test-debug: clean all
+	qemu-system-i386 -s -S -cdrom $(ISO_IMG)
